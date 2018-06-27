@@ -1,0 +1,29 @@
+#ifconfig 接口名    //查看网卡信息
+如：#ifconfig eth0
+
+#ifconfig -a
+
+#ifconfig 接口名 IPv4地址/掩码长度       //设置网卡IP地址
+如：#ifconfig eth1 192.168.4.5/24
+
+添加网卡eth1:
+#nmcli connection add con-name eth1 ifname eth1 type ethernet
+# nmcli connection modify eth1 ipv4.method manual ipv4.addresses '172.25.0.120/24' connection.autoconnect yes
+#nmcli connection up eth1
+
+
+nmcli连接管理
+1、查看网络连接
+#nmcli connection show
+#nmcli connection show "网卡名"
+2、修改网络连接配置
+格式：#nmcli connection modify "连接名" 参数1 值1....
+--常用参数：
+ipv4.method auto|manual
+ipv4.addresses "IP地址/子网掩码长度[默认网关]"
+ipv4.dns DNS服务器地址
+connection.autoconnect yes|no
+如：# nmcli connection modify 'System eth0' ipv4.method manual ipv4.addresses '172.25.0.120/24  172.25.0.254' ipv4.dns 172.25.254.254 connection.autoconnect  yes     #同时配置IP地址、子网掩码和DNS
+3、激活/禁用网络连接
+#nmcli connection down "网卡名"
+#nmcli connection up "网卡名"
